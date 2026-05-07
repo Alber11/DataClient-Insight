@@ -6,63 +6,68 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- * Clase orientada al manejo y lectura del fichero de clientes mediante distintos métodos.
+ * Gestiona la lectura y el parseo del fichero de clientes.
+ * Proporciona métodos para leer el fichero de datos utilizando diferentes técnicas de E/S
+ * y convierte cada línea en un objeto {@link Cliente}.
  */
 public class LectorFicheros {
 
     /**
-     * Crea un {@link Scanner} para el fichero indicado.
+     * Crea un {@link Scanner} para el fichero indicado, permitiendo una lectura cómoda línea a línea.
      *
-     * @param ruta ruta del fichero a leer.
-     * @return scanner para el fichero dado.
-     * @throws FileNotFoundException si no existe el fichero.
+     * @param ruta La ruta del fichero a leer.
+     * @return Un {@code Scanner} para el fichero.
+     * @throws FileNotFoundException Si el fichero no se encuentra en la ruta especificada.
      */
     public static Scanner lectorFicheroScanner(String ruta) throws FileNotFoundException {
         return new Scanner(new File(ruta));
     }
 
     /**
-     * Crea un {@link FileReader} para el fichero indicado.
+     * Crea un {@link FileReader} para el fichero indicado, útil para lecturas de caracteres.
      *
-     * @param ruta ruta del fichero a leer.
-     * @return lector de caracteres para el fichero dado.
-     * @throws FileNotFoundException si no existe el fichero.
+     * @param ruta La ruta del fichero a leer.
+     * @return Un {@code FileReader} para el fichero.
+     * @throws FileNotFoundException Si el fichero no se encuentra.
      */
     public static FileReader lectorFicheroFilereader(String ruta) throws FileNotFoundException {
         return new FileReader(ruta);
     }
 
     /**
-     * Crea un {@link BufferedReader} para el fichero indicado.
+     * Crea un {@link BufferedReader} para el fichero, optimizado para la lectura eficiente de líneas de texto.
      *
-     * @param ruta ruta del fichero a leer.
-     * @return lector con búfer para el fichero dado.
-     * @throws FileNotFoundException si no existe el fichero.
+     * @param ruta La ruta del fichero a leer.
+     * @return Un {@code BufferedReader} para el fichero.
+     * @throws FileNotFoundException Si el fichero no se encuentra.
      */
     public static BufferedReader lectorFicheroBufferReader(String ruta) throws FileNotFoundException {
         return new BufferedReader(new FileReader(ruta));
     }
 
     /**
-     * Convierte una línea del fichero en una instancia de {@link Cliente}.
+     * Parsea una línea de texto del fichero y la convierte en un objeto {@link Cliente}.
+     * La línea debe estar delimitada por punto y coma (;) y contener al menos 12 campos.
      *
-     * @param linea línea del fichero.
-     * @return cliente parseado o {@code null} si la línea no es válida.
+     * @param linea La línea de texto a parsear.
+     * @return Un objeto {@code Cliente} con los datos parseados, o {@code null} si la línea es inválida.
      */
     private static Cliente parseLinea(String linea) {
         if (linea == null || linea.trim().isEmpty()) {
             return null;
         }
         String[] datos = linea.split(";");
-        if (datos.length < 11) {
+        if (datos.length < 12) {
             return null;
         }
         try {
             String facturacionStr = datos[4].replace(',', '.');
             double facturacion = Double.parseDouble(facturacionStr);
+            String cargo = datos[5];
             String ciudad = datos[6];
             String pais = datos[10];
-            return new Cliente(datos[0], datos[1], datos[2], ciudad, pais, facturacion);
+            String telefono = datos[11];
+            return new Cliente(datos[0], datos[1], datos[2], cargo, ciudad, pais, telefono, facturacion);
         } catch (NumberFormatException e) {
             System.err.println("Error parseando facturación en línea: " + linea);
             return null;
@@ -70,10 +75,11 @@ public class LectorFicheros {
     }
 
     /**
-     * Lee el archivo utilizando Scanner y parsea los clientes.
+     * Carga la lista de clientes desde el fichero utilizando un {@link Scanner}.
+     * Este método es sencillo y adecuado para ficheros de tamaño moderado.
      *
-     * @param ruta Ruta del archivo a leer.
-     * @return Lista de clientes generada.
+     * @param ruta La ruta del fichero a leer.
+     * @return Una lista de {@link Cliente} cargados desde el fichero.
      */
     public static List<Cliente> cargarClientesConScanner(String ruta) {
         List<Cliente> clientes = new ArrayList<>();
@@ -91,10 +97,11 @@ public class LectorFicheros {
     }
 
     /**
-     * Lee el archivo utilizando FileReader y parsea los clientes.
+     * Carga la lista de clientes desde el fichero utilizando un {@link FileReader}.
+     * Este método lee el fichero carácter a carácter, lo cual puede ser menos eficiente para ficheros grandes.
      *
-     * @param ruta Ruta del archivo a leer.
-     * @return Lista de clientes generada.
+     * @param ruta La ruta del fichero a leer.
+     * @return Una lista de {@link Cliente} cargados.
      */
     public static List<Cliente> cargarClientesConFileReader(String ruta) {
         List<Cliente> clientes = new ArrayList<>();
@@ -121,10 +128,11 @@ public class LectorFicheros {
     }
 
     /**
-     * Lee el archivo utilizando BufferedReader y parsea los clientes.
+     * Carga la lista de clientes desde el fichero utilizando un {@link BufferedReader}.
+     * Este es el método más eficiente para leer ficheros de texto grandes línea por línea.
      *
-     * @param ruta Ruta del archivo a leer.
-     * @return Lista de clientes generada.
+     * @param ruta La ruta del fichero a leer.
+     * @return Una lista de {@link Cliente} cargados.
      */
     public static List<Cliente> cargarClientesConBufferedReader(String ruta) {
         List<Cliente> clientes = new ArrayList<>();

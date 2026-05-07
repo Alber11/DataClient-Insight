@@ -3,7 +3,8 @@ package com.gmail.albermargar9;
 import java.io.*;
 
 /**
- * Gestiona la configuración de la aplicación mediante un archivo binario.
+ * Gestiona la configuración de la aplicación, permitiendo la persistencia de las preferencias del usuario.
+ * La configuración se guarda en un fichero binario en el directorio home del usuario.
  */
 public class Configuracion {
     /** Ruta del archivo de configuración binaria del usuario. */
@@ -21,6 +22,10 @@ public class Configuracion {
     /** Nombre del fichero de salida para los informes. */
     private String fileReport;
 
+    /**
+     * Constructor que inicializa la configuración, cargando primero los valores por defecto
+     * y luego sobrescribiéndolos con los guardados en el fichero, si existe.
+     */
     public Configuracion() {
         RUTA_ARCHIVO = System.getProperty("user.home") + File.separator + "configuration.bin";
         cargarConfiguracionPredeterminada();
@@ -28,7 +33,8 @@ public class Configuracion {
     }
 
     /**
-     * Carga los valores por defecto en caso de no existir el archivo.
+     * Establece los valores de configuración por defecto.
+     * Estos valores se usan si no existe un fichero de configuración previo.
      */
     private void cargarConfiguracionPredeterminada() {
         defaultLocation = "Clientes_LF.txt";
@@ -38,7 +44,8 @@ public class Configuracion {
     }
 
     /**
-     * Lee la configuración del archivo binario.
+     * Carga la configuración desde el fichero binario.
+     * Si el fichero no existe, se mantienen los valores por defecto.
      */
     private void cargarDesdeFichero() {
         File file = new File(RUTA_ARCHIVO);
@@ -60,7 +67,8 @@ public class Configuracion {
     }
 
     /**
-     * Guarda la configuración actual en el archivo binario.
+     * Guarda la configuración actual en el fichero binario.
+     * Cada opción se guarda como un par clave-valor en formato UTF.
      */
     public void guardarEnFichero() {
         try (DataOutputStream dos = new DataOutputStream(new FileOutputStream(RUTA_ARCHIVO))) {
@@ -75,10 +83,10 @@ public class Configuracion {
     }
 
     /**
-     * Recupera el valor de una opción de configuración.
+     * Recupera el valor de una opción de configuración específica.
      *
-     * @param clave clave de configuración.
-     * @return valor de configuración o {@code null} si la clave no existe.
+     * @param clave La clave de la configuración solicitada (p. ej., "default_location").
+     * @return El valor de la configuración como {@code String}, o {@code null} si la clave no es válida.
      */
     public String getValor(String clave) {
         switch (clave) {
@@ -98,8 +106,8 @@ public class Configuracion {
     /**
      * Actualiza el valor de una opción de configuración.
      *
-     * @param clave clave de configuración.
-     * @param valor nuevo valor.
+     * @param clave La clave de la configuración a modificar.
+     * @param valor El nuevo valor a asignar.
      */
     public void setValor(String clave, String valor) {
         switch (clave) {

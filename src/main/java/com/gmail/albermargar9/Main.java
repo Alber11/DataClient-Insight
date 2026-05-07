@@ -11,26 +11,35 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 /**
- * Clase principal que ejecuta la aplicación de lectura e informes de clientes.
+ * Clase principal que orquesta la aplicación de gestión de clientes.
+ * Proporciona un menú interactivo para cargar datos de clientes, generar informes y ajustar la configuración.
  */
 public class Main {
-    /** Configuración de la aplicación. */
+    /**
+     * Almacena la configuración de la aplicación, como rutas de ficheros y preferencias de formato.
+     */
     private static Configuracion config;
 
-    /** Lista de clientes cargados desde el fichero. */
+    /**
+     * Lista que contiene los objetos {@link Cliente} cargados desde el fichero de datos.
+     */
     private static List<Cliente> listaClientes = new ArrayList<>();
 
-    /** Instancia de {@link Scanner} para la entrada estándar. */
+    /**
+     * Instancia de {@link Scanner} para leer la entrada del usuario desde la consola.
+     */
     private static Scanner teclado = new Scanner(System.in);
 
-    /** Ruta del fichero de entrada en uso. */
+    /**
+     * Ruta del fichero de datos de clientes que se está utilizando actualmente.
+     */
     private static String rutaFicheroLectura;
 
     /**
-     * Punto de entrada de la aplicación.
+     * Punto de entrada principal de la aplicación.
+     * Inicializa la configuración y gestiona el bucle del menú principal.
      *
-     * @param args parámetros de la aplicación.
-     *             args[0] puede contener la ruta del fichero de datos.
+     * @param args Argumentos de línea de comandos. Si se proporciona, {@code args[0]} se usa como la ruta del fichero de datos.
      */
     public static void main(String[] args) {
         config = new Configuracion();
@@ -85,7 +94,8 @@ public class Main {
     }
 
     /**
-     * Muestra el menú principal de opciones al usuario.
+     * Muestra el menú principal de la aplicación en la consola.
+     * El carácter utilizado para decorar el menú se obtiene de la configuración.
      */
     private static void mostrarMenuPrincipal() {
         String c = config.getValor("menu_character");
@@ -100,7 +110,8 @@ public class Main {
     }
 
     /**
-     * Gestiona el menú de generación de informes y las opciones de ordenación.
+     * Gestiona la creación de informes. Permite al usuario elegir el criterio de ordenación
+     * y filtra los clientes para incluir solo los de España y Alemania.
      */
     private static void gestionarInformes() {
         if (listaClientes.isEmpty()) {
@@ -141,10 +152,11 @@ public class Main {
     }
 
     /**
-     * Genera y muestra o guarda un informe de clientes.
+     * Genera un informe con la lista de clientes proporcionada y lo guarda en un fichero o lo muestra en pantalla,
+     * según la configuración de {@code save_report}.
      *
-     * @param clientes lista de clientes a incluir en el informe.
-     * @param titulo   título del informe.
+     * @param clientes La lista de clientes a incluir en el informe.
+     * @param titulo   El título del informe.
      */
     private static void emitirInforme(List<Cliente> clientes, String titulo) {
         boolean guardar = Boolean.parseBoolean(config.getValor("save_report"));
@@ -168,10 +180,11 @@ public class Main {
     }
 
     /**
-     * Devuelve un nombre de fichero único para evitar sobrescribir archivos existentes.
+     * Genera un nombre de fichero único para evitar sobrescrituras.
+     * Si el nombre base ya existe, añade un sufijo numérico (p. ej., "informe(1).txt").
      *
-     * @param baseFilename nombre base deseado para el fichero.
-     * @return fichero disponible.
+     * @param baseFilename El nombre de fichero base deseado.
+     * @return Un objeto {@link File} con una ruta de fichero única.
      */
     private static File getUniqueFilename(String baseFilename) {
         File file = new File(baseFilename);
@@ -197,7 +210,8 @@ public class Main {
     }
 
     /**
-     * Muestra y gestiona el menú de configuración de la aplicación.
+     * Muestra y gestiona el menú de configuración, permitiendo al usuario modificar
+     * las opciones de la aplicación y guardarlas.
      */
     private static void gestionarConfiguracion() {
         boolean salirMenuConfig = false;
@@ -212,7 +226,7 @@ public class Main {
             System.out.println("4. file_report (ruta): " + config.getValor("file_report"));
             System.out.println("5. Guardar nueva configuración y regresar al menú principal");
             System.out.println("6. Volver al Menú Principal sin guardar nueva configuración");
-            System.out.print("Elija una opción: ");
+            System.out.print("Elija una opción y presione Enter: ");
 
             String opcion = teclado.nextLine();
 
