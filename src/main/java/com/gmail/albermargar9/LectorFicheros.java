@@ -64,10 +64,11 @@ public class LectorFicheros {
             String facturacionStr = datos[4].replace(',', '.');
             double facturacion = Double.parseDouble(facturacionStr);
             String cargo = datos[5];
-            String ciudad = datos[6];
+            String calle = datos[6];
+            String ciudad = datos[7];
             String pais = datos[10];
             String telefono = datos[11];
-            return new Cliente(datos[0], datos[1], datos[2], cargo, ciudad, pais, telefono, facturacion);
+            return new Cliente(datos[0], datos[1], datos[2], cargo, calle, ciudad, pais, telefono, facturacion);
         } catch (NumberFormatException e) {
             System.err.println("Error parseando facturación en línea: " + linea);
             return null;
