@@ -96,7 +96,7 @@ public class Main {
         System.out.println("4. Emitir Informes");
         System.out.println("5. Configuración");
         System.out.println("6. Salir");
-        System.out.print("Elija una opción: ");
+        System.out.print("Elija una opción y presione Enter: ");
     }
 
     /**
@@ -115,7 +115,7 @@ public class Main {
             System.out.println("1. Ordenado por Facturación descendente.");
             System.out.println("2. Ordenado por Nombre de Contacto ascendente.");
             System.out.println("3. Menú anterior");
-            System.out.print("Elija una opción: ");
+            System.out.print("Elija una opción y presione Enter: ");
             String opcion = teclado.nextLine();
 
             List<Cliente> filtrados = listaClientes.stream()
@@ -206,10 +206,10 @@ public class Main {
         while (!salirMenuConfig) {
             String c = config.getValor("menu_character");
             System.out.println("\n" + c.repeat(5) + " Menú Configuración " + c.repeat(5));
-            System.out.println("1. default_location: " + config.getValor("default_location"));
+            System.out.println("1. default_location (ruta): " + config.getValor("default_location"));
             System.out.println("2. menu_character: " + config.getValor("menu_character"));
             System.out.println("3. save_report: " + config.getValor("save_report"));
-            System.out.println("4. file_report: " + config.getValor("file_report"));
+            System.out.println("4. file_report (ruta): " + config.getValor("file_report"));
             System.out.println("5. Guardar nueva configuración y regresar al menú principal");
             System.out.println("6. Volver al Menú Principal sin guardar nueva configuración");
             System.out.print("Elija una opción: ");
