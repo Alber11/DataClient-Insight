@@ -160,22 +160,37 @@ public class Main {
      */
     private static void emitirInforme(List<Cliente> clientes, String titulo) {
         boolean guardar = Boolean.parseBoolean(config.getValor("save_report"));
-        String reporte = titulo + "\n" + "-".repeat(titulo.length()) + "\n";
+        StringBuilder reporte = new StringBuilder();
+        reporte.append(titulo).append("\n").append("-".repeat(titulo.length())).append("\n");
+
+        double totalFacturacion = 0;
+        int contador = 1;
 
         for (Cliente cl : clientes) {
-            reporte += cl.toString() + "\n";
+            reporte.append("Registro ").append(contador).append(" (").append(cl.getPais()).append(")\n");
+            reporte.append("Id. Cliente: ").append(cl.getId()).append("\n");
+            reporte.append("Nombre Contacto: ").append(cl.getNombreContacto()).append("\n");
+            reporte.append("Antigüedad: ").append(cl.getAntiguedad()).append("\n");
+            reporte.append("Facturación: ").append(String.format("%.2f", cl.getFacturacion())).append("\n");
+            reporte.append("Nombre Compania: ").append(cl.getNombreEmpresa()).append("\n");
+            reporte.append("Nombre Ciudad: ").append(cl.getCiudad()).append("\n\n");
+            totalFacturacion += cl.getFacturacion();
+            contador++;
         }
+
+        reporte.append("Total de clientes: ").append(clientes.size()).append("\n");
+        reporte.append("Total de facturación: ").append(String.format("%.2f", totalFacturacion)).append("\n");
 
         if (guardar) {
             File file = getUniqueFilename(config.getValor("file_report"));
             try (PrintWriter pw = new PrintWriter(new FileWriter(file))) {
-                pw.println(reporte);
+                pw.println(reporte.toString());
                 System.out.println("--> Informe guardado en: " + file.getAbsolutePath());
             } catch (IOException e) {
                 System.err.println("Error al guardar el informe: " + e.getMessage());
             }
         } else {
-            System.out.println(reporte);
+            System.out.println(reporte.toString());
         }
     }
 
@@ -221,12 +236,12 @@ public class Main {
             String c = config.getValor("menu_character");
             System.out.println("\n" + c.repeat(5) + " Menú Configuración " + c.repeat(5));
             System.out.println("1. default_location (ruta): " + config.getValor("default_location"));
+            System.out.println("4. file_report (ruta): " + config.getValor("file_report"));
             System.out.println("2. menu_character: " + config.getValor("menu_character"));
             System.out.println("3. save_report: " + config.getValor("save_report"));
-            System.out.println("4. file_report (ruta): " + config.getValor("file_report"));
             System.out.println("5. Guardar nueva configuración y regresar al menú principal");
             System.out.println("6. Volver al Menú Principal sin guardar nueva configuración");
-            System.out.print("Elija una opción y presione Enter: ");
+            System.out.print("Elija una opción: ");
 
             String opcion = teclado.nextLine();
 

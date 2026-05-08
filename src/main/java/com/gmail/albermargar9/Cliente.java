@@ -29,6 +29,9 @@ public class Cliente {
     /** Número de teléfono del cliente. */
     private String telefono;
 
+    /** Antigüedad del cliente. */
+    private int antiguedad;
+
     /** Total de facturación del cliente. */
     private double facturacion;
 
@@ -43,9 +46,10 @@ public class Cliente {
      * @param ciudad         La ciudad donde se encuentra el cliente.
      * @param pais           El país del cliente.
      * @param telefono       El número de teléfono del cliente.
+     * @param antiguedad     La antigüedad del cliente.
      * @param facturacion    El total de facturación del cliente.
      */
-    public Cliente(String id, String nombreEmpresa, String nombreContacto, String cargo, String calle, String ciudad, String pais, String telefono, double facturacion) {
+    public Cliente(String id, String nombreEmpresa, String nombreContacto, String cargo, String calle, String ciudad, String pais, String telefono, int antiguedad, double facturacion) {
         this.id = id;
         this.nombreEmpresa = nombreEmpresa;
         this.nombreContacto = nombreContacto;
@@ -54,6 +58,7 @@ public class Cliente {
         this.ciudad = ciudad;
         this.pais = pais;
         this.telefono = telefono;
+        this.antiguedad = antiguedad;
         this.facturacion = facturacion;
     }
 
@@ -139,15 +144,11 @@ public class Cliente {
     }
 
     /**
-     * Devuelve una representación en texto del cliente, incluyendo todos sus datos.
-     * Este formato es utilizado para la generación de informes.
+     * Obtiene la antigüedad del cliente.
      *
-     * @return Una cadena con los datos completos del cliente.
+     * @return La antigüedad del cliente.
      */
-    @Override
-    public String toString() {
-        return String.format(
-                "Cliente [ID=%s, Empresa=%s, Contacto=%s, Cargo=%s, Calle=%s, Ciudad=%s, País=%s, Teléfono=%s, Facturación=%.2f]",
-                id, nombreEmpresa, nombreContacto, cargo, calle, ciudad, pais, telefono, facturacion);
+    public int getAntiguedad() {
+        return antiguedad;
     }
 }

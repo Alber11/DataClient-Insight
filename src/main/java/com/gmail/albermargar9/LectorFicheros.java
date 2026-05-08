@@ -61,6 +61,7 @@ public class LectorFicheros {
             return null;
         }
         try {
+            int antiguedad = Integer.parseInt(datos[3]);
             String facturacionStr = datos[4].replace(',', '.');
             double facturacion = Double.parseDouble(facturacionStr);
             String cargo = datos[5];
@@ -68,7 +69,7 @@ public class LectorFicheros {
             String ciudad = datos[7];
             String pais = datos[10];
             String telefono = datos[11];
-            return new Cliente(datos[0], datos[1], datos[2], cargo, calle, ciudad, pais, telefono, facturacion);
+            return new Cliente(datos[0], datos[1], datos[2], cargo, calle, ciudad, pais, telefono, antiguedad, facturacion);
         } catch (NumberFormatException e) {
             System.err.println("Error parseando facturación en línea: " + linea);
             return null;
