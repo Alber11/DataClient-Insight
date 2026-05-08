@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="DataClient-Insight:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DataClient_Insight_jar</output-path>
+    <root id="archive" name="ClientesMultiMio.jar">
+      <element id="module-output" name="DataClient-Insight" />
+    </root>
+  </artifact>
+</component>
